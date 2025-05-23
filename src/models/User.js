@@ -24,13 +24,17 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: true,
     validate: {
-      isUrl: true,
-    }
-  }
-
-},{
-    timestamps: true,
-  })
+      isUrl: { msg: "Image URL must be a valid URL" },
+      isImageUrl(value) {
+        if (value && !value.match(/\.(jpg|jpeg|png|gif)$/i)) {
+          throw new Error("Image URL must end with .jpg, .jpeg, .png or .gif");
+        }
+      },
+    },
+  },
+}, {
+  timestamps: true,
+});
 
 
 module.exports = User;

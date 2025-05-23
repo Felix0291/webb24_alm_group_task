@@ -64,4 +64,19 @@ describe("User Model tests", () => {
     });
     await userWithCorrectUrl.validate();
   });
+  
+  test("userId should increment when creating multiple users", async () => {
+    const user1 = await User.create({
+       username: "user1",
+      email: "user1@mail.com"
+    })
+    const user2 = await User.create({
+       username: "user2",
+      email: "user2@mail.com"
+    })
+
+    expect(user1).toBeDefined();
+    expect(user2).toBeDefined();
+    expect(user1.id).toBeLessThan(user2.id);
+  })
 });

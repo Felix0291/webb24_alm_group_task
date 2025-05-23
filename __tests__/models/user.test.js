@@ -3,7 +3,7 @@ const { UniqueConstraintError } = require("sequelize");
 
 
 
-describe("User Model", () => {
+describe("User Model tests", () => {
   it("should create a user", async () => {
     const user = await User.create({ username: "testuser", email: "test@test.com" })
 

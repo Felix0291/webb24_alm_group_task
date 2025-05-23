@@ -26,16 +26,11 @@ const User = sequelize.define("User", {
     validate: {
       isUrl: true,
     }
-  },
-    timestamps: true,
-  
-});
+  }
 
-User.associate = (models) => {
-  User.hasMany(models.Accomodation, {
-    foreignKey: "userId",
-    onDelete: "CASCADE",
-  });
-};
+},{
+    timestamps: true,
+  })
+
 
 module.exports = User;

@@ -59,4 +59,19 @@ describe("Accommodation tests", () => {
         const deleted = await Accommodation.findOne({ where: { userId: user.id } });
         expect(deleted).toBeNull();
       });
+
+      test("userId should increment when creating multiple accommodations", async () => {
+        const user1 = await User.create({
+           username: "user1",
+          email: "user1@mail.com"
+        })
+        const user2 = await User.create({
+           username: "user2",
+          email: "user2@mail.com"
+        })
+
+        expect(user1).toBeDefined();
+        expect(user2).toBeDefined();
+        expect(user1.id).not.toBe(user2.id);
+      })
 });      

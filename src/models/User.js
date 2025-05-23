@@ -16,25 +16,21 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    vaildate: {
+    validate: {
       isEmail: true,
     }
   },
   profilePic: {
     type: DataTypes.STRING,
+    allowNull: true,
     validate: {
       isUrl: true,
     }
-  },
-    timestamps: true,
-  
-});
+  }
 
-User.associate = (models) => {
-  User.hasMany(models.Accomodation, {
-    foreignKey: "userId",
-    onDelete: "CASCADE",
-  });
-};
+},{
+    timestamps: true,
+  })
+
 
 module.exports = User;

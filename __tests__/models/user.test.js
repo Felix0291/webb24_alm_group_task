@@ -1,11 +1,9 @@
 const { User } = require("../test-setup.js");
 const { UniqueConstraintError } = require("sequelize");
 
-
-
 describe("User Model tests", () => {
   it("should create a user", async () => {
-    const user = await User.create({ username: "testuser", email: "test@test.com" })
+    const user = await User.create({ username: "testuser", email: "test@test.com" });
 
     expect(user).toBeDefined();
     expect(user.username).toBe("testuser");
@@ -13,14 +11,11 @@ describe("User Model tests", () => {
   });
 
   it("should validate email format", async () => {
-    // Build: Create a new user instance without saving it to the database
-    const user = await User.build({ username: "testuser", email: "invalid-email" });
-    // Validate: Check if the user instance is valid
-    // rejects.toThrow() is used to check if the user instance is invalid
-    expect(user.validate()).rejects.toThrow();
+    const user = User.build({ username: "testuser", email: "invalid-email" });
+    await expect(user.validate()).rejects.toThrow();
   });
 
- // _____________________________DUPLICATES TESTS______________________________________
+  // _____________________________DUPLICATES TESTS______________________________________
 
   it("should not allow users with the same username", async () => {
     await User.create({ username: "user", email: "user1@test.com" });
@@ -30,7 +25,7 @@ describe("User Model tests", () => {
     ).rejects.toThrow(UniqueConstraintError);
   });
 
-  it("should not allow duplicate email adresses", async () => {
+  it("should not allow duplicate email addresses", async () => {
     await User.create({ username: "user123", email: "unique_email@test.com" });
 
     await expect(
@@ -39,32 +34,31 @@ describe("User Model tests", () => {
   });
 
   // _____________________________PROFILE PICTURE TESTS________________________________________ 
-  
-  it("should validate imageUrl format", async () => {
-  const userWithWrongTypeUrl = User.build({
-    username: "testuser1",
-    email: "test1@test.com",
-    imageUrl: "http://example.com/file.txt",
-  });
-  await expect(userWithWrongTypeUrl.validate()).rejects.toThrow(
-    "Image URL must end with .jpg, .jpeg, .png or .gif"
-  );
 
-  const userWithIncorrectUrl = User.build({
-    username: "testuser12345",
-    email: "test12345@test.com",
-    imageUrl: "not-a-url",
-  });
-  await expect(userWithIncorrectUrl.validate()).rejects.toThrow(
-    "Must be a valid URL"
-  );
- 
-  const userWithCorrectUrl = User.build({
-    username: "testuser321",
-    email: "test321@test.com",
-    imageUrl: "https://example.com/image.png",
-  });
-  await expect(userWithCorrectUrl.validate()).resolves.toBeUndefined();
-});
+  it("should validate profilePic URL format", async () => {
+    const userWithWrongTypeUrl = User.build({
+      username: "testuser1",
+      email: "test1@test.com",
+      profilePic: "http://example.com/file.txt",
+    });
+    await expect(userWithWrongTypeUrl.validate()).rejects.toThrow(
+      "Image URL must end with .jpg, .jpeg, .png or .gif"
+    );
 
+    const userWithIncorrectUrl = User.build({
+      username: "testuser12345",
+      email: "test12345@test.com",
+      profilePic: "not-a-url",
+    });
+    await expect(userWithIncorrectUrl.validate()).rejects.toThrow(
+      "Image URL must be a valid URL"
+    );
+
+    const userWithCorrectUrl = User.build({
+      username: "testuser321",
+      email: "test321@test.com",
+      profilePic: "https://example.com/image.png",
+    });
+   await userWithCorrectUrl.validate(); // ✅ enklast
+  });
 });

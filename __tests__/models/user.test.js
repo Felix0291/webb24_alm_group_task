@@ -3,7 +3,10 @@ const { UniqueConstraintError } = require("sequelize");
 
 describe("User Model tests", () => {
   it("should create a user", async () => {
-    const user = await User.create({ username: "testuser", email: "test@test.com" });
+    const user = await User.create({
+      username: "testuser",
+      email: "test@test.com",
+    });
 
     expect(user).toBeDefined();
     expect(user.username).toBe("testuser");
@@ -33,7 +36,7 @@ describe("User Model tests", () => {
     ).rejects.toThrow(UniqueConstraintError);
   });
 
-  // _____________________________PROFILE PICTURE TESTS________________________________________ 
+  // _____________________________PROFILE PICTURE TESTS________________________________________
 
   it("should validate profilePic URL format", async () => {
     const userWithWrongTypeUrl = User.build({
@@ -59,6 +62,6 @@ describe("User Model tests", () => {
       email: "test321@test.com",
       profilePic: "https://example.com/image.png",
     });
-   await userWithCorrectUrl.validate(); // ✅ enklast
+    await userWithCorrectUrl.validate();
   });
 });

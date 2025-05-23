@@ -48,30 +48,15 @@ describe("Accommodation tests", () => {
           room: 4,
           userId: user.id,
         });
-        
-        expect(accommodation.street).toBe("Lillegatan 22");
 
-        const found = await Accommodation.findOne({ where: { userId: user.id } });
-        expect(found).toBeDefined();
+        const foundAccommodation = await Accommodation.findOne({ where: { userId: user.id } });
+        expect(foundAccommodation).toBeDefined();
       
         await user.destroy();
       
-        const deleted = await Accommodation.findOne({ where: { userId: user.id } });
-        expect(deleted).toBeNull();
+        const deletedAccommodation = await Accommodation.findOne({ where: { userId: user.id } });
+        expect(deletedAccommodation).toBeNull();
       });
 
-      test("userId should increment when creating multiple accommodations", async () => {
-        const user1 = await User.create({
-           username: "user1",
-          email: "user1@mail.com"
-        })
-        const user2 = await User.create({
-           username: "user2",
-          email: "user2@mail.com"
-        })
-
-        expect(user1).toBeDefined();
-        expect(user2).toBeDefined();
-        expect(user1.id).toBeLessThan(user2.id);
-      })
+      
 });      

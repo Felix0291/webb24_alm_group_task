@@ -72,6 +72,6 @@ describe("Accommodation tests", () => {
 
         expect(user1).toBeDefined();
         expect(user2).toBeDefined();
-        expect(user1.id).not.toBe(user2.id);
+        expect(user1.id).toBeLessThan(user2.id);
       })
 });      
